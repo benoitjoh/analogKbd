@@ -1,0 +1,6 @@
+AnalogKbd	KEYWORD1
+read	KEYWORD2
+wait_till_read	KEYWORD2
+mapValue	KEYWORD2
+
+
