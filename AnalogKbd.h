@@ -25,6 +25,8 @@ class AnalogKbd
         // transform the analog read to a raw key number
         byte mapValue(int value);
 
+        int getLastAdValue();
+
 
     protected:
     private:
@@ -36,10 +38,11 @@ class AnalogKbd
         byte _nr_of_keys;
         byte _reliable_time;
         int _longpressed_time;
- 
+
         // reads from analog pin
         int _kbdRead;
         int _kbdLastRead;
+        int _lastAdValue;
 
         // resulted value to return
         byte _kbdResult;

@@ -5,13 +5,13 @@
 
 // maximum difference tolerated between two reads
 #define ACCURACY 10
-
 AnalogKbd::AnalogKbd(byte input_pin, byte  nr_of_keys, byte reliable_time, int longpressed_time)
 {
     _input_pin = input_pin;
     _nr_of_keys = nr_of_keys;
     _reliable_time = reliable_time;
     _longpressed_time = longpressed_time;
+
     _kbdRead = 0;
     _kbdLastRead = 0;
     _kbdResult = 255;
@@ -102,6 +102,7 @@ byte AnalogKbd::read()
                 if (_kbdTime - _kbdChangeTime > _reliable_time)
                 {
                     _kbdResult = mapValue(_kbdRead);
+                    _lastAdValue = _kbdRead;
 
                     // read the same value for at least 70ms...
                     // fix the value don't deliver it but keep it on hold
@@ -135,4 +136,10 @@ byte AnalogKbd::read()
     _kbdLastRead = _kbdRead;
     return 255;
 }
+
+int AnalogKbd::getLastAdValue()
+{
+    return _lastAdValue;
+}
+
 
