@@ -48,9 +48,8 @@ initialize like this:
 #define KBD_NR_OF_KEYS   4  // how many keys are built up in the circuit (max about 20)
 #define KBD_RELIABLE_TIME_DELTA     40   // milisecs a key must be pressed to read a reliable value (~at least 3 times the same)
 #define KBD_LONGPRESS_TIME_DELTA    600  // millisecs a key must be pressed to read  a long value ( 128 + keyNr )
-#define KBD_ACCURACY    20  // minimum variance between two analog reads
 
-AnalogKbd kbd(PIN_ANALOG_KBD, KBD_NR_OF_KEYS, KBD_RELIABLE_TIME_DELTA, KBD_LONGPRESS_TIME_DELTA, KBD_ACCURACY);
+AnalogKbd kbd(PIN_ANALOG_KBD, KBD_NR_OF_KEYS, KBD_RELIABLE_TIME_DELTA, KBD_LONGPRESS_TIME_DELTA);
 byte kbdValue = 255; //the value that is read from keyboard
 
 ```

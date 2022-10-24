@@ -11,7 +11,7 @@ signed int kbdValue = 0; //the value that is read from keyboard
 
 // using the standard LCD Library
 #include <LiquidCrystal.h>
-//            lcd(rs, en, d4, d5, d6, d7); backlight: pin D6
+//            lcd(rs, e,  d4, d5, d6, d7); 
 LiquidCrystal lcd(8,  7,   9, 10, 11, 12);
 
 
@@ -26,14 +26,14 @@ void setup()
     {
         ; // wait for serial Pin to connect. otherwise reset if serial console is started :-/
     }
-    Serial.write("start: \nThese are the lower limits:\n");
+    Serial.write("start: \nThese are the limits between the ad-values to distinguish beween keys:\n");
     byte resOld = -1;
     for (int i=0; i<1024; i++)
     {
         byte res = kbd.mapValue(i);
         if (res != resOld)
         {
-            Serial.println("map i>" + String(i) + " -->  " + String(res) );
+            Serial.println("advalue > " + String(i) + " -->  key " + String(res) );
             resOld = res;
         }
     }
@@ -45,9 +45,20 @@ void loop() {
     kbdValue = kbd.read();
     if (kbdValue != 255)
     {  
-       //int adValue = analogRead(PIN_ANALOG_KBD);
-       Serial.println("Result: " + String(kbdValue));
        lcd.setCursor(0,1);
-       lcd.println("Res.: " + String(kbdValue) + " ad: " + String(kbd.getLastAdValue()));
+       lcd.println("Key:" + String(kbdValue) + " ADC: " + String(kbd.getLastAdValue()));
+       Serial.println("Key:" + String(kbdValue) + " ADC: " + String(kbd.getLastAdValue()) );
+       switch (kbdValue)
+          {
+          case 0:
+              // key 0 pressed...       
+              Serial.println(" Key 0 pressed.");
+ 
+              break;
+          case 128:
+              Serial.println(" Key 0 pressed long .");
+             
+              break;
+          }
     }
 }
