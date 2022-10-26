@@ -15,7 +15,7 @@
 class AnalogKbd
 {
     public:
-        AnalogKbd(byte input_pin, byte nr_of_keys, byte reliable_time, int longpressed_time);
+        AnalogKbd(byte input_pin, byte nr_of_keys);
 
         // analyze the inputvalue and return key if result is reliable:
         byte read();
@@ -36,8 +36,6 @@ class AnalogKbd
         //passed parameters
         byte _input_pin;
         byte _nr_of_keys;
-        byte _reliable_time;
-        int _longpressed_time;
 
         // reads from analog pin
         int _kbdRead;

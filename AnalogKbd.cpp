@@ -3,14 +3,18 @@
 // switch to actiavate debugging code if Serial interface is available
 //#define DEBUG_ON_SERIAL 1
 
-// maximum difference tolerated between two reads
-#define ACCURACY 10
-AnalogKbd::AnalogKbd(byte input_pin, byte  nr_of_keys, byte reliable_time, int longpressed_time)
+
+// some parameters that control the behaviour
+
+#define ACCURACY 5 // maximum difference tolerated between two reads of ad-value
+#define KBD_RELIABLE_TIME_DELTA     40   // ms a key must be pressed
+#define KBD_LONGPRESS_TIME_DELTA    600  // ms a key must be pressed for long value
+
+
+AnalogKbd::AnalogKbd(byte input_pin, byte  nr_of_keys)
 {
     _input_pin = input_pin;
     _nr_of_keys = nr_of_keys;
-    _reliable_time = reliable_time;
-    _longpressed_time = longpressed_time;
 
     _kbdRead = 0;
     _kbdLastRead = 0;
@@ -99,7 +103,7 @@ byte AnalogKbd::read()
                 byte dbgMap =  mapValue(_kbdRead);
                 Serial.println("kbd : read " + String(_kbdRead) + " same. (" + String(dbgMap) + ")");
 #endif // DEBUG_ON_SERIAL
-                if (_kbdTime - _kbdChangeTime > _reliable_time)
+                if (_kbdTime - _kbdChangeTime > KBD_RELIABLE_TIME_DELTA)
                 {
                     _kbdResult = mapValue(_kbdRead);
                     _lastAdValue = _kbdRead;
@@ -116,7 +120,7 @@ byte AnalogKbd::read()
             }
             else
             {
-                if ((_kbdTime - _validateTime > _longpressed_time) and _kbdIsValid)
+                if ((_kbdTime - _validateTime > KBD_LONGPRESS_TIME_DELTA) and _kbdIsValid)
                 {
                     // if key is pressed longer than defined, return 128 + keynumber
                     _kbdResult = 128 + _kbdResult;
