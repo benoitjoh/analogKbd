@@ -46,17 +46,15 @@ initialize like this:
 #include<AnalogKbd.h>
 #define PIN_ANALOG_KBD   0  // number of analog pin of ATMEGA
 #define KBD_NR_OF_KEYS   4  // how many keys are built up in the circuit (max about 20)
-#define KBD_RELIABLE_TIME_DELTA     40   // milisecs a key must be pressed to read a reliable value (~at least 3 times the same)
-#define KBD_LONGPRESS_TIME_DELTA    600  // millisecs a key must be pressed to read  a long value ( 128 + keyNr )
 
-AnalogKbd kbd(PIN_ANALOG_KBD, KBD_NR_OF_KEYS, KBD_RELIABLE_TIME_DELTA, KBD_LONGPRESS_TIME_DELTA);
+AnalogKbd kbd(PIN_ANALOG_KBD, KBD_NR_OF_KEYS);
 byte kbdValue = 255; //the value that is read from keyboard
 
 ```
 
 ### Use read() in a loop ###
 
-Call the function kbd.read() somewhere in a loop. The loop should repeat at least three times in the preset KBD_RELIABLE_TIME_DELTA .
+Call the function kbd.read() somewhere in a loop. The method must be called at least each 10 milliseconds.
 
 
 ```c++
@@ -81,6 +79,6 @@ kbdValue = kbd.wait_until_read();
 //do next thing after a key has been pressed
 ```
 
-(c) Johannes Benoit 2016
+(c) Johannes Benoit 2016-2022
 
 
