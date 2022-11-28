@@ -2,11 +2,9 @@
 #include<AnalogKbd.h>
 
 #define PIN_ANALOG_KBD   0  // ad0 for input of analog Keyboard...
-#define KBD_NR_OF_KEYS   5  // how many keys are built up in the circuit
-#define KBD_RELIABLE_TIME_DELTA     30   // ms a key must be pressed
-#define KBD_LONGPRESS_TIME_DELTA    600  // ms a key must be pressed for long value
+#define KBD_NR_OF_KEYS   9  // how many keys are built up in the circuit
 
-AnalogKbd kbd(PIN_ANALOG_KBD, KBD_NR_OF_KEYS, KBD_RELIABLE_TIME_DELTA, KBD_LONGPRESS_TIME_DELTA);
+AnalogKbd kbd(PIN_ANALOG_KBD, KBD_NR_OF_KEYS);
 signed int kbdValue = 0; //the value that is read from keyboard
 
 // using the standard LCD Library
@@ -52,11 +50,11 @@ void loop() {
           {
           case 0:
               // key 0 pressed...       
-              Serial.println(" Key 0 pressed.");
+              Serial.println(" .. some action if key 0 pressed....");
  
               break;
           case 128:
-              Serial.println(" Key 0 pressed long .");
+              Serial.println(" ..some action if key 0 pressed long .");
              
               break;
           }
