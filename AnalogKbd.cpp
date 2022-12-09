@@ -1,9 +1,5 @@
 #include "AnalogKbd.h"
 
-// switch to actiavate debugging code if Serial interface is available
-//#define DEBUG_ON_SERIAL 1
-
-
 // some parameters that control the behaviour
 
 #define ACCURACY 5 // maximum difference tolerated between two reads of ad-value
@@ -29,13 +25,11 @@ AnalogKbd::AnalogKbd(byte input_pin, byte  nr_of_keys)
 
 }
 
-byte AnalogKbd::mapValue(int value)
-{
+byte AnalogKbd::mapValue(int value) {
     return map(value - 512/_nr_of_keys, 0, 1025, 0, _nr_of_keys);
 }
 
-byte AnalogKbd::wait_till_read()
-{
+byte AnalogKbd::wait_till_read() {
     byte _result = 255;
     while (_result == 255)
     {
@@ -45,66 +39,42 @@ byte AnalogKbd::wait_till_read()
     return _result;
 }
 
-byte AnalogKbd::read()
-{
+byte AnalogKbd::read() {
     _kbdRead = analogRead(_input_pin);
     _kbdTime = millis();
-    if (_kbdRead < 20)
-    {
+    if (_kbdRead < 20) {
         // read is zero
 
-        if (_kbdWasReleased == false)
-        {
-            //change state to wasReleased = true
-#ifdef DEBUG_ON_SERIAL
-            Serial.println("kbd : read " + String(_kbdRead) + " released");
-#endif
+        if (_kbdWasReleased == false) {
+            // change state to wasReleased = true
+            //Serial.println("kbd : read " + String(_kbdRead) + " released");
             _kbdWasReleased = true;
             _kbdLastRead = 0;
 
-            if (_kbdIsValid == true)
-            {
+            if (_kbdIsValid == true) {
                 // if a valid value is on hold, return it first time key is released
                 _kbdIsValid = false;
-#ifdef DEBUG_ON_SERIAL
-                Serial.println("kbd :  --> result " + String(_kbdResult));
-#endif
+                //Serial.println("kbd :  --> result " + String(_kbdResult));
                 return _kbdResult;
             }
         }
     }
 
 
-    else
+    else {
         // read is non zero
-    {
-#ifdef DEBUG_ON_SERIAL
-   Serial.println("read " + String(_kbdRead));
-#endif // DEBUG_ON_SERIAL
-        if (abs(_kbdRead - _kbdLastRead) > ACCURACY)
-        {
+        // Serial.println("read " + String(_kbdRead));
+        if (abs(_kbdRead - _kbdLastRead) > ACCURACY) {
             // if this read is different to the one before, start set time
 
             _kbdChangeTime = millis();
-#ifdef DEBUG_ON_SERIAL
-            byte dbgMap =  mapValue(_kbdRead);
-            Serial.println("kbd : read " + String(_kbdRead) + " different (" + String(dbgMap) + ")");
-#endif // DEBUG_ON_SERIAL
-
         }
-        else
-        {
+        else {
             // the value is unchanged
-            if (_kbdWasReleased == true)
-            {
+            if (_kbdWasReleased == true) {
                 // there is no value on hold, the key has been released since last verification
 
-#ifdef DEBUG_ON_SERIAL
-                byte dbgMap =  mapValue(_kbdRead);
-                Serial.println("kbd : read " + String(_kbdRead) + " same. (" + String(dbgMap) + ")");
-#endif // DEBUG_ON_SERIAL
-                if (_kbdTime - _kbdChangeTime > KBD_RELIABLE_TIME_DELTA)
-                {
+                if (_kbdTime - _kbdChangeTime > KBD_RELIABLE_TIME_DELTA) {
                     _kbdResult = mapValue(_kbdRead);
                     _lastAdValue = _kbdRead;
 
@@ -113,24 +83,16 @@ byte AnalogKbd::read()
                     _kbdWasReleased = false;
                     _kbdIsValid = true;
                     _validateTime = _kbdTime; // store the time when validated
-#ifdef DEBUG_ON_SERIAL
-                    Serial.println("kbd : read " + String(_kbdRead) + " --> valid.  (" + String(_kbdResult) + ")");
-#endif // DEBUG_ON_SERIAL
+                    //Serial.println("kbd : read " + String(_kbdRead) + " --> valid.  (" + String(_kbdResult) + ")");
                 }
             }
-            else
-            {
-                if ((_kbdTime - _validateTime > KBD_LONGPRESS_TIME_DELTA) and _kbdIsValid)
-                {
+            else {
+                if ((_kbdTime - _validateTime > KBD_LONGPRESS_TIME_DELTA) and _kbdIsValid) {
                     // if key is pressed longer than defined, return 128 + keynumber
                     _kbdResult = 128 + _kbdResult;
 
                     _kbdWasReleased = false;
                     _kbdIsValid = false;
-#ifdef DEBUG_ON_SERIAL
-                    Serial.println("kbd : read " + String(_kbdRead) + " long timeDelta " + String(_kbdTime - _validateTime));
-                    Serial.println("kbd :  --> result " + String(_kbdResult));
-#endif // DEBUG_ON_SERIAL
                     return _kbdResult;
 
                 }
@@ -141,8 +103,7 @@ byte AnalogKbd::read()
     return 255;
 }
 
-int AnalogKbd::getLastAdValue()
-{
+int AnalogKbd::getLastAdValue() {
     return _lastAdValue;
 }
 
