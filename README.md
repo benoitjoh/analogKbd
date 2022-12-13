@@ -45,7 +45,7 @@ initialize like this:
 ```c++
 #include<AnalogKbd.h>
 #define PIN_ANALOG_KBD   0  // number of analog pin of ATMEGA
-#define KBD_NR_OF_KEYS   4  // how many keys are built up in the circuit (max about 20)
+#define KBD_NR_OF_KEYS   5  // how many keys are built up in the circuit (max about 20)
 
 AnalogKbd kbd(PIN_ANALOG_KBD, KBD_NR_OF_KEYS);
 byte kbdValue = 255; //the value that is read from keyboard

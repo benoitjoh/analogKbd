@@ -6,7 +6,7 @@
 #define KBD_NR_OF_KEYS   9  // how many keys are built up in the circuit
 
 AnalogKbd kbd(PIN_ANALOG_KBD, KBD_NR_OF_KEYS);
-signed int kbdValue = 0; //the value that is read from keyboard
+byte kbdValue = 0; //the value that is read from keyboard
 
 
 void setup() {
@@ -48,7 +48,7 @@ void loop() {
         if (kbdValue > 127) {
             delay(100); // if long keypress, long blink
         }
-    }        
+    }
     delay(10);
     digitalWrite(13, 0);
 
