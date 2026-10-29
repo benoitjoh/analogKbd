@@ -1,7 +1,7 @@
 # analog Keyboard #
 
 Read a keyboardvalue from resistor array via one analog port of a ATMEGA.
-So you can build up very simple small keyboards with up to 30 keys.
+So you can build up very simple small keyboards with up to 10 keys.
 
 ## Principle ##
 

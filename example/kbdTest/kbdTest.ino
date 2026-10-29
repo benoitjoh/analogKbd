@@ -5,6 +5,8 @@
 #define PIN_ANALOG_KBD   0  // ad0 for input of analog Keyboard...
 #define KBD_NR_OF_KEYS   9  // how many keys are built up in the circuit
 
+#define NO_KEY_PRESSED   255
+
 AnalogKbd kbd(PIN_ANALOG_KBD, KBD_NR_OF_KEYS);
 byte kbdValue = 0; //the value that is read from keyboard
 
@@ -34,7 +36,7 @@ void loop() {
 
     kbdValue = kbd.read();
 
-    if (kbdValue != 255) {
+    if (kbdValue != NO_KEY_PRESSED) {
         digitalWrite(13, 1); // short blink
         Serial.println("Key Nr.:" + String(kbdValue) + "  ADC-Value: " + String(kbd.getLastAdValue()) );
         switch (kbdValue) {

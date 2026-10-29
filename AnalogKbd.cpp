@@ -42,7 +42,7 @@ byte AnalogKbd::wait_till_read() {
 byte AnalogKbd::read() {
     _kbdRead = analogRead(_input_pin);
     _kbdTime = millis();
-    if (_kbdRead < 20) {
+    if (_kbdRead < 50) {
         // read is zero
 
         if (_kbdWasReleased == false) {
